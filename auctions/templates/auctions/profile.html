@@ -1,0 +1,101 @@
+{% extends "auctions/base.html" %}
+
+{% block body %}
+    {%if has_content%}
+    <div >
+        <div style="display: flex" >
+            
+            <div style="flex-grow: 1;">   
+                <h1>Listing: {{product.name}}</h1>
+                <br>
+                <div>
+                    <h3>
+                        Description:
+                    </h3>
+                     {{product.description}}
+                </div>    
+                <br>
+                <div>
+                    <h4>
+                        Starting Price:
+                    </h4>
+                     ${{ product.starting_price}}
+                </div>
+                
+                <div>
+                    <h4>
+                        Current Price:  
+                    </h4>
+                    ${{ product.current_price}} 
+                </div>
+                
+                {% if user.is_authenticated %}
+                    <br>
+                    {%if isMine%}
+                        {%if isActive%}
+                            <form action="{% url 'close' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden"  name="product_id" value={{product.id}}>
+                                <br>
+                                <div class="button-box">
+
+                                    <input class="button" type="submit" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" value="Close Listing">            
+                                </div>
+                            </form>
+                        {% else %}
+                        <br>
+                            <div class="closed-red">
+                               Closed 
+                            </div>
+                            
+                        {% endif %}
+                    {%else%}
+                        {% if isActive %}
+                            <form action="{% url 'place_bid' product.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-dark">
+                                 <br>
+                                    <div class="user-box1">
+                                        {{bidform}}
+                                        <label >Place a Bid</label>
+                                    </div>
+                                    
+                                    {%if bid_isvalid %}
+                                    {%else%}
+                                        <h3>
+                                            Bid should be greater than or equal to current price
+                                        </h3>
+                                    {% endif %}
+                                </div>
+        
+                                <div class="button-box">
+                                    <input class="button" type="submit" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" value="Place Bid">            
+                                </div>
+                            </form>
+                        {%else%}
+                            {% if  isWinner %}
+                            <br>
+                                <h3> 
+                                    <div class="winner">
+                                        Congratulations {{WinnerName.username}}! You won this auction!
+                                    </div>
+
+                                </h3>
+                            {% else %}
+                                <br>
+                                This auction is closed
+                            {% endif %}
+                        {% endif %}
+                    {%endif%}
+                {% endif %}
+            </div>
+        </div>
+        <br>
+
+        <br>
+        
+    </div>
+    {%else%}
+    <h2>{{texts}}</h2>
+    {% endif %}
+    {% endblock %}

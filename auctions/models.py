@@ -10,7 +10,7 @@ class Listing(models.Model):
     description = models.CharField(max_length=255)
     starting_price = models.IntegerField(default = 0)
     current_price = models.IntegerField(default = 0)
-    user_won = models.CharField(max_length=255,default=None)
+    user_won = models.CharField(max_length=255,default=None,null=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -22,7 +22,7 @@ class User(AbstractUser):
     def __str__(self):
         return "{}".format(self.email)
     # my_watchlist =   models.ManyToManyField(Listing, blank=True, related_name="my_watchlist")
-    # my_listings = models.ManyToManyField(Listing, blank=True, related_name="my_listings")
+    my_listings = models.ManyToManyField(Listing, blank=True, related_name="my_listings")
 
 class Bid(models.Model):
     bid = models.IntegerField(default = 0)
