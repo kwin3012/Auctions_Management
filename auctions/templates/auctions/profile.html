@@ -28,6 +28,13 @@
                     </h4>
                     ${{ product.current_price}} 
                 </div>
+
+                <div>
+                    <h4>
+                        Current Auction Winner:  
+                    </h4>
+                    {{ product.user_won}} 
+                </div>
                 
                 {% if user.is_authenticated %}
                     <br>

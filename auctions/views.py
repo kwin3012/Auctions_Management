@@ -8,7 +8,6 @@ from .models import User, Bid, Listing
 from django.contrib.auth.decorators import login_required
 from django import forms
 
-
 def index(request):
     listings = Listing.objects.filter(isActive = True)
     current_user = request.user  
@@ -24,11 +23,9 @@ def login_view(request):
     password = request.POST["password"]
     user = authenticate(request, username=username, password=password)
 
-        # Check if authentication successful
+    # Check if authentication successful
     if user is None:
-        return render(request, "auctions/login.html", {
-            "message": "Invalid username and/or password."
-        })
+        return render(request, "auctions/login.html", {"message": "Invalid username and/or password."})
     login(request, user)
     return HttpResponseRedirect(reverse("index"))
 
@@ -57,9 +54,7 @@ def register(request):
         user = User.objects.create_user(username, email, password)
         user.save()
     except IntegrityError:
-        return render(request, "auctions/register.html", {
-            "message": "Username already taken."
-        })
+        return render(request, "auctions/register.html", {"message": "Username already taken."})
     login(request, user)
     return HttpResponseRedirect(reverse("index"))
 
@@ -88,21 +83,13 @@ def create(request):
             added_listing.current_price =  added_listing.starting_price
             added_listing.save()
             current_user.my_listings.add(added_listing)
-            return redirect("/"+str(added_listing.id))
+            return redirect("index")
         else:
-            data ={
-                "listingform": listingform,
-            }
-            return render(request, "auctions/create.html", 
-                data
-            )
+            data = {"listingform": listingform,}
+            return render(request, "auctions/create.html", data)
     else:
-        data ={
-            "listingform": ListingForm(),
-        }
-        return render(request, "auctions/create.html", 
-            data
-        )
+        data = {"listingform": ListingForm(),}
+        return render(request, "auctions/create.html",  data)
 
 class BidForm(forms.ModelForm):
     bid = forms.IntegerField(label='',
@@ -111,7 +98,6 @@ class BidForm(forms.ModelForm):
     class Meta:
         model = Bid
         fields = ['bid']
-
 
 def listing_profile(request, product_id):
     product =  Listing.objects.get(id = product_id)
@@ -131,15 +117,13 @@ def listing_profile(request, product_id):
 
         args = Bid.objects.filter(bid_listing=product)
         if args.count() >= 1:
-            highest_bid =  args.order_by('-bid')[0]
+            highest_bid = args.order_by('-bid')[0]
             isWinner = highest_bid.bidder == current_user
             data["isWinner"] = isWinner
 
         data["isMine"] = isMine
 
-    return render(request, "auctions/profile.html", 
-        data
-    )
+    return render(request, "auctions/profile.html", data)
 
 @login_required
 def place_bid(request, product_id):
@@ -164,11 +148,11 @@ def place_bid(request, product_id):
             added_bid.bidder = current_user
             added_bid.save()
             product.current_price = added_bid.bid
+            product.user_won = current_user.username
             product.save()
             return redirect("index")
 
     return redirect('/' + str(product_id))
-
 
 @login_required()
 def close(request):
