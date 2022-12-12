@@ -1,23 +1,13 @@
 {% extends "auctions/base.html" %}
 
 {% block body %}
-    <div class="grid">
+    <div>
         {% for listing in listings %}
-            <a href="{% url 'listing_profile' listing.id %}">
-                <div class="item">
-                    <h6>
-                        <div class="item-name">
-                                {{listing.name}}
-                        </div>
-                    </h6>
-                    <div class="item-des">
-                        {{listing.description}}
-                    </div>
-                    <div class="price">
-                        Price: ${{listing.current_price}}
-                    </div>
-                </a>
-            </div>
+        <div class="jumbotron" >
+            <h4><a href="{% url 'listing_profile' listing.id %}">{{listing.name}}</a></h4><br>
+            <strong>Description: </strong>{{listing.description}}<br>
+            <strong>Price: </strong>${{listing.current_price}}
+        </div>
         {% endfor %}
     </div>
 {% endblock %}
