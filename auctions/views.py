@@ -4,10 +4,14 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from .models import User
 from django.db import IntegrityError
+from .models import User, Bid, Listing
 
 
 def index(request):
-    return render(request,"auctions/base.html")
+    listings = Listing.objects.filter(isActive = True)
+    current_user = request.user  
+    data = {"listings": listings,}
+    return render(request, "auctions/index.html", data)
 
 def login_view(request):
     if request.method != "POST":
