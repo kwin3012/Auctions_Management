@@ -1,12 +1,9 @@
-# Setup:
-1.) 
+# Setup: 
 ```shell
 python manage.py makemigrations
-```
-2.) 
-```shell
 python manage.py migrate
 ```
+
 # Run:
 ```shell
 python manage.py runserver
@@ -16,4 +13,6 @@ python manage.py runserver
 ```shell
 http://localhost:8000/auctions/
 ```
+
+# Here are some photos
 
