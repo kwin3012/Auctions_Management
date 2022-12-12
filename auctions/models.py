@@ -25,3 +25,12 @@ class User(AbstractUser):
         return "{}".format(self.email)
     # my_watchlist =   models.ManyToManyField(Listing, blank=True, related_name="my_watchlist")
     # my_listings = models.ManyToManyField(Listing, blank=True, related_name="my_listings")
+
+
+
+class Bid(models.Model):
+    bid = models.IntegerField(default = 0)
+    bid_listing =  models.ForeignKey(Listing,default = 1, on_delete=models.CASCADE)
+    bidder =  models.ForeignKey(User,default=1, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.bid}"
