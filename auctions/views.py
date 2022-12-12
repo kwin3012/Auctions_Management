@@ -3,6 +3,6 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Ready to Start!")
+    return render(request,"auctions/base.html")
 
 # Create your views here.
