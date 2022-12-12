@@ -18,12 +18,16 @@
                     <li><a class="nav-link" href="#">Active Listings</a></li>
                     <li><a class="nav-link" href="#">All Listings</a></li>
                     <li><a class="nav-link" href="#">Create Listing</a></li>
-                    <li><a class="nav-link" href="#">Log In</a></li>
-                    <li><a class="nav-link" href="#">Register</a></li>
+                    <li><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
+                    <li><a class="nav-link" href="{% url 'register' %}">Register</a></li>
                 </ul>           
             </nav>
         </div>
     </div>
+    <div class="bodyblock">
+        {% block body %}
+        {% endblock %}
+    </div>  
     
 </body>
 </html>
