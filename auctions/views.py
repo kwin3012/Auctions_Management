@@ -7,7 +7,7 @@ from django.db import IntegrityError
 
 
 def index(request):
-    pass
+    return render(request,"auctions/base.html")
 
 def login_view(request):
     if request.method != "POST":
